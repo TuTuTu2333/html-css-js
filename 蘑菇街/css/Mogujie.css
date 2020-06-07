@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+.con {
+    width: 1198px;
+    height: 350px;
+    margin: 30px auto;
+}
+
+.daoUl {
+    width: 1198px;
+    height: 40px;
+    list-style: none;
+    background: #eef;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+}
+
+.daoUl li {
+    width: 65px;
+    text-align: center;
+    line-height: 38px;
+    float: left;
+}
+
+.big {
+    height: 300px;
+    background: #efe;
+    border: 1px solid #ccc;
+    border-top: none;
+    padding: 30px;
+}
+
+.box {
+    width: 918px;
+    height: 240px;
+    float: left;
+    border-right: 1px solid #ccc;
+    border-right-style: dashed;
+}
+
+.box div {
+    width: 900px;
+    height: 240px;
+    background: skyblue;
+    text-align: center;
+    line-height: 220px;
+    color: #fff;
+    display: none;
+}
+
+.imgBox {
+    width: 200px;
+    height: 240px;
+    background: sandybrown;
+    float: right;
+}
+
+.imgBox img {
+    width: 100%;
+    height: 100%;
+}
+
+.dao {
+    border-top: 2px solid pink;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.box .nei {
+    display: block;
+}
+
+.main {
+    width: 1198px;
+    height: 100%;
+    margin: auto;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.main li {
+    width: 220px;
+    height: 374px;
+    border: 1px solid #ccc;
+    margin-bottom: 30px;
+    /* float: left; */
+}
+
+.main .imgCon {
+    width: 100%;
+    height: 293px;
+    overflow: hidden;
+}
+
+.main .imgCon img {
+    height: 100%;
+}
+
+.main .name {
+    font-size: 13px;
+    color: rgb(66, 66, 66);
+    /* 文本超过两行隐藏 */
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -moz-box-orient: vertical;
+    padding: 5px 7px 0 7px;
+}
+
+.main .price {
+    width: 100%;
+    height: 25px;
+    padding: 8px;
+    line-height: 25px;
+    font-size: 15px;
+}
+
+.main .nowPrice {
+    font-weight: 600;
+
+}
+
+.main .oldPrice {
+    color: #999;
+    margin-left: 5px;
+}
+
+.main .collect {
+    width: 16px;
+    height: 15px;
+    float: right;
+    margin: 4px 5px;
+}
+
+.main .collectNum {
+    float: right;
+    font-size: 13px;
+    color: #999;
+}

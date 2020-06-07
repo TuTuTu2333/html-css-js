@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/baidu.css">
+    <script src="../js/baidu.js"></script>
+</head>
+
+<body>
+    <div class="box"></div>
+    <script>
+        class Manage {
+            constructor(data) {
+                this.root = null;
+                this.data = data;
+            }
+
+            nint() {
+                this.renderUI();
+                this.addClickEventHandler();
+                this.addMouseEventHandler();
+            }
+            
+            renderUI() {
+                this.root = document.createElement("div");
+                this.root.className = "con";
+
+                var htmlA = `<div class="top">${this.data.title}</div>`;
+
+                var tapTitle = this.data.types.map(function (item, index) {
+                    return `
+                       <li class=${index==0?"active":""}>${item}</li>
+                    `
+                }).join("");
+                var htmlB = `
+                    <ul class="title">${tapTitle}</ul>
+                    `
+
+                var htmlC = this.data.data.map(function (ele, i) {
+                    var tabCon = ele.map(function (item, index) {
+                        return `
+                       <li>
+                          <div class="liTitle ${index==9?'borNo':''} ${index==0?"titleBorder":""}" >
+                            <span class=${index<3?"bgRed":"bgBlue"}>${index+1}</span>
+                            <span>${item.name}</span>
+                            <span class="hot"><i>Hot</i>${item.hot}</span>
+                          </div>
+                          <div class="liContent ${index==0?'current':''}">
+                             <img src="${item.src}" class=${item.src?"":"unImg"}>
+                             <span class=${item.intro?"text":"unText"}>${item.intro?item.intro:"查看详情"}</span>
+                          </div>
+                       </li>
+                    `
+                    }).join("");
+
+                    console.log(tabCon);
+
+
+                    return `
+                    <ul class="tabcon ${i==0?'current':''}">${tabCon}</ul>`
+
+                }).join("");
+
+                var oBox = document.querySelector(".box")
+                this.root.innerHTML = htmlA + htmlB + htmlC;
+                document.body.appendChild(oBox);
+                oBox.appendChild(this.root);
+            }
+
+            addClickEventHandler() {
+                var topTitle = this.root.querySelector(".title");
+                var topLi = topTitle.children;
+                var tabCon = this.root.querySelectorAll(".tabcon");
+
+                for (let i = 0, len = topLi.length; i < len; i++) {
+                    // topLi[i].index = i;
+                    topLi[i].onclick = function () {
+
+                        for (let i = 0, len = topLi.length; i < len; i++) {
+                            topLi[i].classList.remove("active");
+                            tabCon[i].classList.remove("current");
+                        }
+                        this.classList.add("active");
+                        tabCon[i].classList.add("current");
+                        // }
+                    }
+                }
+            }
+
+            addMouseEventHandler() {
+                var tabcon = this.root.querySelectorAll(".tabcon");
+                //tabcon获取到的数据是nodelist类型，他不是数组
+                // var tabcon = Array.prototype.slice.call(tabcon);
+                var tabcon = Array.from(tabcon);
+                // 将tabCon转换为数组
+
+                //forEach是数组的属性    
+                tabcon.forEach(function (item, index) {
+                    var liTitle = item.querySelectorAll(".liTitle");
+                    var liContent = item.querySelectorAll(".liContent")
+                    // console.log(liTitle, liContent);
+
+                    for (let j = 0, lan = liTitle.length; j < lan; j++) {
+                        // liTitle[j].index = j;
+                        liTitle[j].onmouseenter = function () {
+                            for (let k = 0, len = liTitle.length; k < len; k++) {
+                                liTitle[k].classList.remove("titleBorder")
+                                liContent[k].classList.remove("current");
+                            }
+                            this.classList.add("titleBorder")
+                            liContent[j].classList.add("current");
+                        }
+                    }
+                })
+            }
+        }
+
+        var manage1 = new Manage(itemA);
+        manage1.nint();
+
+        var manage2 = new Manage(itemB);
+        manage2.nint();
+
+        var manage3 = new Manage(itemC);
+        manage3.nint();
+
+        // 爬取数据
+        // var con = document.querySelectorAll(".box-cont");
+        // var ul = con[0].querySelector("ul");
+        // var li = ul.querySelectorAll("li");
+        // var arrTop = [];
+        // for (var i = 0; i < li.length; i++) {
+        //     var title = li[i].innerText;
+        //     arrTop.push(title);
+        // }
+        // JSON.stringify(arrTop);
+
+        // var con = document.querySelectorAll(".box-cont");
+        // var oBox=con[0].querySelectorAll(".tab-box")
+        // var list = oBox[0].querySelector(".item-list");
+        // var listLi = list.querySelectorAll("li");
+        // var arrList = [];
+        // for (var i = 0; i < listLi.length; i++) {
+        //     var obj = {};
+        //     var nei = listLi[i].querySelector(".item-hd");
+        //     obj.name = nei.querySelector("a").innerText;
+        //     obj.hot = nei.getElementsByTagName("span")[1].innerText
+        //     obj.src = listLi[i].querySelector("img") ? listLi[i].querySelector("img").src : "";
+        //     obj.intro = listLi[i].querySelector(".item-text")?listLi[i].querySelector(".item-text").innerText:"";
+        //     arrList.push(obj);
+        // }
+        //  JSON.stringify(arrList);
+    </script>
+</body>
+
+</html>

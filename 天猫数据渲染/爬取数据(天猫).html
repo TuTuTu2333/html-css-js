@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./data.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .con {
+            width: 1200px;
+            height: 800px;
+            margin: auto;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        .box {
+            width: 210px;
+            height: 310px;
+            float: left;
+            margin: 10px;
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .price {
+            font-size: 16px;
+            color: #f00;
+        }
+
+        .productName {
+            font-size: 13px;
+            overflow: hidden;
+            white-space: nowrap;
+            line-height: 20px;
+        }
+
+        .shopName {
+            font-size: 13px;
+            text-decoration: underline #999;
+            color: #999;
+            line-height: 20px;
+        }
+
+        .sold {
+            margin-top: 8px;
+        }
+
+        .spanBor {
+            display: inline-block;
+            font-size: 12px;
+            width: 90px;
+            height: 20px;
+            border: 1px solid #999;
+            text-align: center;
+            line-height: 18px;
+        }
+
+        .btn {
+            width: 250px;
+            height: 30px;
+            line-height: 30px;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="con">
+        <div class="btn">
+            <button id="sort-default">默认排序</button>
+            <button id="sort-A">按照价格升序</button>
+            <button id="sort-B">按照价格降序</button>
+        </div>
+        <div class="nei"></div>
+    </div>
+    <script>
+        //爬取页面的数据
+        // var bigDiv = document.getElementById("J_ItemList");
+        // var oDiv = bigDiv[0];
+        // var shopDiv = document.getElementsByClassName("product");
+        // var arr = [];
+        // for (var i = 0, len = shopDiv.length; i < len; i++) {
+        //     var ele = shopDiv[i];
+        //     var obj = {};
+        //     var wrap = ele.getElementsByClassName("productImg-wrap")[0];
+        //     obj.href = wrap.getElementsByTagName("a")[0].href;
+        //     obj.src = wrap.getElementsByTagName("img")[0].src;
+        //     obj.price = ele.getElementsByTagName("em")[0].innerText;
+        //     obj.productName = ele.getElementsByClassName("productTitle")[0].innerText;
+        //     obj.ShopName = ele.getElementsByClassName("productShop-name")[0].innerText;
+        //     var sold = ele.getElementsByClassName("productStatus")[0];
+        //     obj.volume = sold.getElementsByTagName("span")[0].innerText;
+        //     obj.evaluate = sold.getElementsByTagName("span")[1].innerText;
+        //     arr.push(obj);
+        // }
+
+        // JSON.stringify(arr)
+
+        window.onload = function () {
+            renderUI();
+
+            //渲染数据
+            function renderUI() {
+                var oNei = document.getElementsByClassName("nei")[0];
+                var html = data.map(function (item, index) {
+                    return `
+               <div class="box">
+                  <img src="${item.src}" alt=""/>
+                  <div class="price">${item.price}</div> 
+                  <p class="productName">${item.productName}</p> 
+                  <div class="shopName">${item.ShopName}</div> 
+                  <div class="sold">
+                     <span class="spanBor">${item.volume}</span>
+                     <span class="spanBor">${item.evaluate}</span>
+                  </div> 
+               </div>
+            `
+                }).join("");
+                oNei.innerHTML = html;
+                mouse();
+            }
+
+            // console.log(oBox, oShopName, oSoid);
+
+            // 实现排序功能
+            //获取按钮
+            var sort_default = document.getElementById("sort-default");
+            var sort_A = document.getElementById("sort-A");
+            var sort_B = document.getElementById("sort-B");
+
+            // 给按钮添加点击事件
+
+            sort_default.onclick = function () {
+                data.sort(function (a, b) {
+                    //id是新添加的显示数组里每个对象的顺序
+                    return a.id - b.id;
+                });
+                renderUI();
+            }
+
+            sort_A.onclick = function () {
+                data.sort(function (a, b) {
+                    return Number(a.price.slice(1)) - Number(b.price.slice(1));
+                }); //price属性值是字符串，转换为数字，去掉值前面的￥符号
+                renderUI();
+            }
+
+            sort_B.onclick = function () {
+                data.sort(function (a, b) {
+                    return Number(b.price.slice(1)) - Number(a.price.slice(1));
+                });
+                renderUI();
+            }
+
+            // 封装一个函数，实现鼠标滑过事件和点击事件
+            function mouse() {
+                var oBox = document.getElementsByClassName("box");
+                var oProductName = document.getElementsByClassName("productName");
+                var oShopName = document.getElementsByClassName("shopName");
+
+
+                for (var i = 0; i < oBox.length; i++) {
+                    oBox[i].onmouseenter = function () {
+                        this.style.border = "2px solid #f00";
+                    }
+                    oBox[i].onmouseleave = function () {
+                        this.style.border = "1px solid #ccc";
+                    }
+                     
+                    oBox[i].index=i;
+                    oBox[i].onclick = function () {
+                        // 方案B 当点击标签时，获取当前索引，通过这个索引去data数组中就可以把对应的数据取出来
+                        // console.log(this,this.index);
+                
+                        var tData = data[this.index];
+                        // console.log(tData);
+                        
+                        // 对象->查询字符串
+                        window.location.href = "./detail.html?" + objToQueryString(tData);
+                    }
+                }
+
+                for (var i = 0, len = oProductName.length; i < len; i++) {
+                    oProductName[i].onmouseenter = function () {
+                        this.style.color = "red";
+                        this.style.textDecoration = "underline red";
+                    }
+                    oProductName[i].onmouseleave = function () {
+                        this.style.color = "#000";
+                        this.style.textDecoration = "none";
+                    }
+                }
+
+                for (var i = 0, len = oShopName.length; i < len; i++) {
+                    oShopName[i].onmouseenter = function () {
+                        this.style.color = "red";
+                        this.style.textDecoration = "underline red";
+                    }
+                    oShopName[i].onmouseleave = function () {
+                        this.style.color = "#999";
+                        this.style.textDecoration = "underline #999";
+                    }
+                }
+            }
+
+            // 封装一个函数，把对象键值对连起来变成一个字符串
+            function objToQueryString(obj) {
+                var arr = [];
+                for (var key in obj) {
+                    arr.push(`${key}=${obj[key]}`);
+                }
+                    return arr.join("&");;
+            }
+        }
+    </script>
+</body>
+
+</html>

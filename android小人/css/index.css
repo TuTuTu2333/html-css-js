@@ -1,0 +1,155 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.box {
+    width: 600px;
+    height: 600px;
+    margin: 50px auto;
+    border: 1px solid #f00;
+    background: #cccccc;
+    /* position: relative; */
+}
+
+.anbody {
+    width: 200px;
+    height: 230px;
+    background: #51a251;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    top: 160px;
+    left: 200px;
+    position: relative;
+}
+
+.anhead {
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    background: #51a251;
+    border-top-right-radius: 100px;
+    border-top-left-radius: 100px;
+    top: -110px;
+    /* left: 200px; */
+    position: relative;
+}
+
+.anhead .eye1 {
+    display: block;
+    width: 21px;
+    height: 21px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 50px;
+    left: 61px;
+}
+
+.anhead .eye2 {
+    display: block;
+    width: 21px;
+    height: 21px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 50px;
+    left: 121px;
+}
+
+.anhead .smail1 {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #fff;
+    position: absolute;
+    top: 49px;
+    left: 52px;
+    position: relative;
+    /* display: none; */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.anhead .smail2 {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #fff;
+    position: absolute;
+    top: 49px;
+    left: 115px;
+    /* display: none; */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+p {
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    position: absolute;
+    left: -2px;
+    top: 5px;
+    background: #51a251;
+}
+
+
+
+.anbody:hover .hand1 {
+    top: -120px;
+    transform: rotate(165deg);
+}
+.anbody:hover .smail1{
+    /* display: block; */
+    opacity: 1;
+}
+.anbody:hover .smail2{
+    /* display: block; */
+    opacity: 1;
+}
+
+.hand1 {
+    width: 32px;
+    height: 182px;
+    position: absolute;
+    background: #51a251;
+    border-radius: 8px;
+    top: 10px;
+    left: -45px;
+    transition: all 2s;
+}
+
+.hand2 {
+    width: 32px;
+    height: 182px;
+    position: absolute;
+    background: #51a251;
+    border-radius: 8px;
+    top: 10px;
+    left: 213px;
+}
+
+
+
+.leg1 {
+    width: 30px;
+    height: 80px;
+    position: absolute;
+    background: #51a251;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    top: 230px;
+    left: 48px;
+}
+
+.leg2 {
+    width: 30px;
+    height: 80px;
+    position: absolute;
+    background: #51a251;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    top: 230px;
+    left: 128px;
+}

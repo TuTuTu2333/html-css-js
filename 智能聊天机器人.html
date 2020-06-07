@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .box {
+            width: 600px;
+            height: 400px;
+            margin: 50px auto;
+        }
+
+        ul {
+            list-style: none;
+            width: 600px;
+            height: 300px;
+            border: 2px solid #000;
+            border-radius: 20px;
+            padding: 10px;
+        }
+
+        li {
+            padding: 0 8px;
+            margin: 2px;
+            background: #ccc;
+            float: left;
+            line-height: 30px;
+            border-radius: 10px;
+            height: 30px;
+            clear: both;
+        }
+
+        .my-msg {
+            float: right;
+            background: #58bc58;
+            color: #fff;
+        }
+
+        #text {
+            width: 600px;
+            height: 70px;
+            border: 1px solid #999;
+            border-radius: 20px;
+            margin-top: 20px;
+            padding: 10px 20px;
+            outline: none;
+        }
+
+        button {
+            width: 80px;
+            height: 30px;
+            background: #fff;
+            border: 2px solid skyblue;
+            border-radius: 10px;
+            margin-top: 10px;
+            outline: none;
+        }
+
+        .box .status {
+            position: absolute;
+            bottom: 280px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #555;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <ul></ul>
+        <textarea id="text" cols="30" rows="5"></textarea>
+        <button>发送消息</button>
+        <div class="status">对方正在输入...</div>
+    </div>
+
+    <script>
+        //先给按钮添加点击事件，当点击的时候获取输入框的值，并根据该内容来创建li标签插入到页面中
+        var oBtn = document.querySelector("button");
+        var oText = document.querySelector("#text");
+        var oUl = document.querySelector("ul");
+        var oStatus = document.querySelector(".status");
+        console.log(oStatus);
+
+
+        oBtn.onclick = function () {
+            //发送消息    
+            //获取输入框的值 (把值先赋给text，再使用oText.value清空值)
+            var text = oText.value;
+            //清空输入框
+            oText.value = "";
+
+            //创建li标签，将输入框里的值插入进去
+            var oLi = document.createElement("li");
+            oLi.innerText = text;
+
+            //给li标签添加样式
+            //oLi.className="my-msg"
+            //oLi.setAttribute("class","my-msg");
+            oLi.classList.add("my-msg")
+            oUl.appendChild(oLi);
+            oStatus.style.display = "block";
+
+            //回复消息
+            //当发送消息按钮被点击时就应该回复(创建li标签插入ul中)
+            var send = ["在吗？", "你在哪？", "我稀罕你！", "今晚我能去你家吗？", "我有一份甜甜的恋爱你要吗？", "我带你去浪漫的土耳其吧"]
+            var reply = [
+                ["不在", "在的"], "我在你心里呀", "我也是", ["不好意思，我四海为家。", "好呀 好呀", "今晚不方便，改天", "我们出去吧，今晚酒店打折"],
+                ["要", "不要..."], "但我想去东京和巴黎"
+            ]
+
+            //检查send数组中是否有输入框输入的值，没有返回-1
+            var index = send.indexOf(text);
+            var responseText = index == -1 ? "我现在睡觉了，明天再回复你" : (!Array.isArray(reply[index]) ? reply[index] : reply[
+                index][getNumber(0, reply[index].length - 1)]);
+
+            var oLiB = document.createElement("li");
+            oLiB.innerText = responseText;
+
+            //设置回复延迟
+            setTimeout(function () {
+                oUl.appendChild(oLiB);
+                oStatus.style.display = "none";
+            }, getNumber(500, 5000))
+        }
+
+        function getNumber(min, max) {
+            return parseInt(Math.random() * (max - min + 1)) + min
+        }
+    </script>
+</body>
+
+</html>

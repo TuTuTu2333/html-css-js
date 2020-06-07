@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../js/guoMeiData.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="target">
+        <ul>
+            <div class="floor"><b>楼层导航</b></div>
+            <li class="target-cur">1F<br>手机通讯</li>
+            <li>2F<br>电脑数码</li>
+            <li>3F<br>家用电器</li>
+            <li>4F<br>厨房卫浴</li>
+            <li>5F<br>国美超市</li>
+            <li>6F<br>家具家装</li>
+            <li>7F<br>汽车用品</li>
+            <div class="floor bg">Top</div>
+        </ul>
+    </div>
+    <script>
+        class Manager {
+            constructor() {
+                this.root = null;
+            }
+            init() {
+                this.renderUI();
+                this.addElentmouseHandler();
+                this.addFloorHanlder();
+            }
+            renderUI() {//数据渲染
+                this.root = document.createElement("div");
+                this.root.className = "con";
+
+                let html = data.map(function (item, index) {
+                    let tabs = item.tabs.map(function (ele, i) {
+                        return `
+                           <li class=${i==0?"cur":""}>${ele}</li>
+                          `
+                    }).join("");
+
+                    let types = item.types.map(function (ele, i) {
+                        return `
+                            <li>${ele}</li>
+                        `
+                    }).join("");
+
+                    let mc_img = item.mc_img.map(function (ele, i) {
+                        return `
+                           <li class="oneImg">
+                              <img src="${ele}"/>
+                            </li>
+                        `
+                    }).join("");
+
+                    let list = item.list.map(function (ele, i) {
+                        let li = ele.map(function (e, j) {
+                            return `
+                                <li class="twoImg">
+                                   <img src="${e.src}" alt="" />
+                                   <div class="title">${e.title}</div> 
+                                   <div class="price">${e.price}</div>   
+                                </li>
+                            `
+                        }).join("");
+
+                        return `
+                            <div class="main-right ${index==3||index==5?"leftOne rwOne":"leftTwo rwTwo"}">
+                               <ul class="main-right-list   ${index==3||index==5?"liOne":"liTwo"}">${li}</ul>    
+                            </div>
+                         `
+                    }).join("");
+
+                    return `
+                      <div class="main">
+                         <div class="main-header">
+                            <div class="main-header-title">${item.name}</div>  
+                            <ul class="main-header-list">${tabs}</ul>
+                         </div>
+                         <div class="main-body"  style="border-top:1px solid ${item.bgcolor}">
+                             <div class="main-left ${index==3||index==5?"one":"two"}" style="background:${item.bgcolor}">
+                                <div class="left-Img ${index==3||index==5?"imgTwo":"imgOne"}"}><img src="${item.src}" alt=""/></div>
+                                <div class="des" style="background:${item.color}">${item.des}</div>
+                                <ul class=${index==3||index==5?"ulOne":"ulTwo"}>${types}</ul>   
+                             </div>   
+                             <div class="main-right ${index==3||index==5?"leftOne":"leftTwo"} current">
+
+                                <div class="showImg ${index==3||index==5?"showImgOne":"showImgTwo"}">
+                                    <img src="${item.slideshow}" alt="" class="main-rigth-show"/>
+                                </div>    
+                                <ul class="main-right-list">${mc_img}</ul>
+                             </div>
+                             ${list}
+                         </div>
+                       </div>  
+                     `
+                }).join("");
+
+                document.body.appendChild(this.root);
+                this.root.innerHTML = html;
+
+            }
+            addElentmouseHandler() {//鼠标滑过事件
+                let main = document.querySelectorAll(".main");
+                let leftUl = document.querySelectorAll(".main-left ul");
+
+                for (let i = 0, len = main.length; i < len; i++) {
+                    let list = main[i].querySelector(".main-header-list").children
+                    let rigth = main[i].querySelectorAll(".main-right");
+                    let title = main[i].querySelectorAll(".title");
+                    //鼠标滑过切换选项卡
+                    for (let j = 0, lan = list.length; j < lan; j++) {            
+                        list[j].onmouseenter = function () {
+                            for (let k = 0, l = list.length; k < l; k++) {
+                                list[k].classList.remove("cur");
+                                rigth[k].classList.remove("current")
+                            }
+                            this.classList.add("cur");
+                            rigth[j].classList.add("current");
+                        }
+                    }
+
+                    // 鼠标滑过改变字体颜色
+                    for (let i = 0, len = title.length; i < len; i++) {
+                        title[i].onmouseenter = function () {
+                            this.style.color = "red";
+                        }
+                        title[i].onmouseleave = function () {
+                            this.style.color = "#666";
+                        }
+                    }
+
+                    // 鼠标滑过添加下划线
+                    for (let i = 0, len = leftUl.length; i < len; i++) {
+                        let leftLi = leftUl[i].querySelectorAll("li");
+                        for (let j = 0, lan = leftLi.length; j < lan; j++) {
+                            leftLi[j].onmouseenter = function () {
+                                this.style.textDecoration = "underline #fff";
+                            }
+                            leftLi[j].onmouseleave = function () {
+                                this.style.textDecoration = "none";
+                            }
+                        }
+                    }
+                }
+            }
+
+            addFloorHanlder() {//楼层效果
+                let target = document.querySelectorAll(".target li");
+                let main = document.querySelectorAll(".main");
+                let floorTop = document.querySelector(".bg");
+                let offsetH = main[0].offsetHeight;
+                //点击跳转楼层
+                for (let i = 0, len = target.length; i < len; i++) {
+                    target[i].onclick = function () {
+                        for (let i = 0, len = target.length; i < len; i++) {
+                            target[i].classList.remove("target-cur")
+                        }
+                        this.classList.add("target-cur");
+                        let ih = main[i].offsetTop - 50;
+                        window.scrollTo(0, ih);
+                    }
+                }
+                //点击Top回到顶部
+                floorTop.onclick = function () {
+                    window.scrollTo(0, 0)
+                }
+                //滚动滚动条滚动到相应的楼层给菜单栏中对应的楼层添加样式
+                window.onscroll = function () {
+                    let scrollY = window.scrollY;
+                    let t = parseInt((scrollY) / offsetH);
+                    for (let i = 0, len = target.length; i < len; i++) {
+                        target[i].classList.remove("target-cur")
+                    }
+                    target[t].classList.add("target-cur");
+                }
+            }
+        }
+
+        var manager = new Manager();
+        manager.init();
+
+
+
+        // 爬取数据
+        // var con = document.querySelectorAll(".ct");
+        // var main = con[3].querySelectorAll(".main");
+        // var arr1 = [];
+        // for (var i = 1; i < main.length; i++) {
+        //     var arr2 = [];
+        //     var li = main[i].querySelectorAll("li");
+        //     for (var j = 0; j < li.length; j++) {
+        //         var obj = {};
+        //         obj.src = li[j].querySelector("img").src;
+        //         obj.title = li[j].querySelector(".p_name").innerText;
+        //         obj.price = li[j].querySelector(".p_price").innerText;
+        //         arr2.push(obj);
+        //     }
+        //     arr1.push(arr2);
+        // }
+        // JSON.stringify(arr1);
+
+        // var con = document.querySelectorAll(".ct")
+        // var main = con[0].querySelectorAll(".main")
+        // var ul = main[0].querySelector("ul")
+        // var li = ul.querySelectorAll("li")
+        // var arr1 = [];
+        // for (var j = 0, len = li.length; j < len; j++) {
+        //     var img = li[j].querySelector("img").src;
+        //     arr1.push(img);
+        // }
+
+        // var mc_r = main[0].querySelector(".mc_r")
+        // var mc_li = mc_r.querySelectorAll("li")
+
+        // var arr2 = [];
+        // for (var i = 0, len = mc_li.length; i < len; i++) {
+        //     var mc_img = mc_li[i].querySelector("img").src;
+        //     arr2.push(mc_img);
+        // }
+    </script>
+</body>
+
+</html>

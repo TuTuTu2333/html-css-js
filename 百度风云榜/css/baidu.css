@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+.box {
+    width: 1200px;
+    height: 670px;
+    margin: 20px auto;
+}
+
+.con {
+    width: 363px;
+    height: 670px;
+    float: left;
+    margin-left: 20px;
+    border: 1px solid #999;
+}
+
+.top {
+    height: 50px;
+    font-size: 18px;
+    line-height: 50px;
+    padding-left: 10px;
+    color: crimson;
+    font-weight: 600;
+}
+
+.title {
+    width: 362px;
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title li {
+    width: 90px;
+    height: 35px;
+    /* float: left; */
+    border: 1px solid #999;
+    text-align: center;
+    line-height: 35px;
+    background: #eee;
+}
+
+.tabcon {
+    display: none;
+}
+
+.tabcon .liTitle {
+    height: 40px;
+    width: 352px;
+    font-size: 14px;
+    line-height: 40px;
+    padding-left: 10px;
+    margin: 4px;
+    border-bottom: 1px solid #999;
+    border-bottom-style: dashed;
+}
+
+.tabcon .borNo {
+    border-bottom: none;
+}
+
+.liTitle .bgRed {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    margin-right: 10px;
+    background: crimson;
+}
+
+.liTitle .bgBlue {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    margin-right: 10px;
+    background: #eee;
+}
+
+.liTitle .hot {
+    float: right;
+    margin-right: 20px;
+    color: crimson;
+}
+
+.liTitle i {
+    display: inline-block;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.liContent {
+    width: 350px;
+    height: 130px;
+    padding: 5px 10px;
+    display: none;
+}
+
+.liContent img {
+    width: 85px;
+    height: 120px;
+    float: left;
+}
+
+.liContent .unImg {
+    display: none;
+}
+
+.liContent .text {
+    display: inline-block;
+    width: 230px;
+    height: 120px;
+    font-size: 13px;
+    margin-left: 10px;
+    line-height: 20px;
+}
+
+.liContent .unText {
+    display: inline-block;
+    width: 340px;
+    height: 130px;
+    text-align: center;
+    line-height: 130px;
+    color: blue;
+    background: #eee;
+}
+
+.title .active {
+    background: crimson;
+    color: #fff;
+}
+
+.current {
+    display: block;
+}
+
+.tabcon .titleBorder {
+    border-bottom: none;
+}
